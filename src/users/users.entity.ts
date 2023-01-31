@@ -37,4 +37,11 @@ export class User {
   })
   @Column({ nullable: false })
   address: string;
+
+  @ApiProperty({
+    example: '저는 John입니다.',
+    description: '유저 설명',
+  })
+  @Column({ nullable: true })
+  description: string;
 }

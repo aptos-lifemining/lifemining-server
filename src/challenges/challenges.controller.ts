@@ -20,6 +20,7 @@ import {
 import { LocalAuthGuard } from 'src/auth/local.auth.guard';
 import { multerOptionsFactory } from 'src/utils/multer.options';
 import { ChallengeHistory } from './challengeHistories.entity';
+import { Challenge } from './challenges.entity';
 import { ChallengesService } from './challenges.service';
 
 @ApiTags('challenges')
@@ -29,6 +30,12 @@ export class ChallengesController {
 
   // challege 리스트 가져오기
   @Get()
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: '챌린지들 가져오기',
+    type: Challenge,
+    isArray: true,
+  })
   retrieveChallengeList() {
     return this.challengesService.retrieveChallengeList();
   }

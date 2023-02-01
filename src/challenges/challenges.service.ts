@@ -3,17 +3,20 @@ import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/users.entity';
 import { Repository } from 'typeorm';
-import { ChallengeHistory } from './challengeHistories.entity';
+import { DailyRecord } from './dailyRecords.entity';
 import { Challenge } from './challenges.entity';
 import * as path from 'path';
+import { TotalRecord } from './totalRecords.entity';
 
 @Injectable()
 export class ChallengesService {
   constructor(
     @InjectRepository(Challenge)
     private challengesRepository: Repository<Challenge>,
-    @InjectRepository(ChallengeHistory)
-    private challengeHistoriesRepository: Repository<ChallengeHistory>,
+    @InjectRepository(DailyRecord)
+    private DailyRecordRepository: Repository<DailyRecord>,
+    @InjectRepository(TotalRecord)
+    private TotalRecordRepository: Repository<TotalRecord>,
     private readonly config: ConfigService,
   ) {}
 
@@ -25,6 +28,16 @@ export class ChallengesService {
           '/' +
           key
       : (await this.config.get('AWS_S3_CLOUDFRONT_ENDPOINT')) + '/' + key;
+  }
+
+  // 챌린지 참여
+  async joinChallenge(id, user: User) {
+    const totalRecord = this.TotalRecordRepository.create({
+      challengerId: user.id,
+      challengeId: id,
+    });
+    await this.DailyRecordRepository.save(totalRecord);
+    return totalRecord;
   }
 
   // challeng 인증
@@ -46,14 +59,14 @@ export class ChallengesService {
       thumbnailKey,
       `lifemining/videos-convert/${basename}/Default/Thumbnails`,
     );
-    const challengeHistory = this.challengeHistoriesRepository.create({
+    const challengeHistory = this.DailyRecordRepository.create({
       challengerId: user.id,
       challengeId: id,
       s3Url: s3Url,
       streamingUrl: streamingUrl,
       thumbnailUrl: thumbnailUrl,
     });
-    await this.challengeHistoriesRepository.save(challengeHistory);
+    await this.DailyRecordRepository.save(challengeHistory);
     return challengeHistory;
   }
 

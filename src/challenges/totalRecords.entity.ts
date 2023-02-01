@@ -10,7 +10,7 @@ import { User } from 'src/users/users.entity';
 import { Challenge } from './challenges.entity';
 
 @Entity()
-export class ChallengeHistory {
+export class TotalRecord {
   // id
   @ApiProperty({
     example: '1',
@@ -53,27 +53,19 @@ export class ChallengeHistory {
   @JoinColumn({ name: 'challengeId' })
   challenge: Challenge;
 
-  // video thumbnail
+  // 총 참여 일수
   @ApiProperty({
-    example: 'thumbnail url',
-    description: '썸네일 url',
+    example: '1',
+    description: '총 참여 일수',
   })
-  @Column({ nullable: false })
-  thumbnailUrl: string;
+  @Column({ nullable: false, default: 0 })
+  totalDays: number;
 
-  // video s3 url
+  // 클레임 가능 여부
   @ApiProperty({
-    example: 'video s3 url',
-    description: '영상 기본저장 s3 url',
+    example: 'true',
+    description: '클레임 가능 여부',
   })
-  @Column({ nullable: false })
-  s3Url: string;
-
-  // video streaming url
-  @ApiProperty({
-    example: 'video streaming url', // TODO : streaming url 채워넣기
-    description: '영상 미디어컨버트 url for streaming',
-  })
-  @Column({ nullable: false })
-  streamingUrl: string;
+  @Column({ nullable: false, default: false })
+  claimable: boolean;
 }

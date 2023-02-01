@@ -19,9 +19,10 @@ import {
 } from '@nestjs/swagger';
 import { LocalAuthGuard } from 'src/auth/local.auth.guard';
 import { multerOptionsFactory } from 'src/utils/multer.options';
-import { ChallengeHistory } from './challengeHistories.entity';
+import { DailyRecord } from './dailyRecords.entity';
 import { Challenge } from './challenges.entity';
 import { ChallengesService } from './challenges.service';
+import { TotalRecord } from './totalRecords.entity';
 
 @ApiTags('challenges')
 @Controller('challenges')
@@ -38,6 +39,19 @@ export class ChallengesController {
   })
   retrieveChallengeList() {
     return this.challengesService.retrieveChallengeList();
+  }
+
+  // challenge 참여하기
+  @Post('/join/:id')
+  @ApiBearerAuth('access_token')
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: '챌린지 참여',
+    type: TotalRecord,
+  })
+  @UseGuards(LocalAuthGuard)
+  joinChallenge(@Param('id') id: number, @Request() req) {
+    return this.challengesService.joinChallenge(id, req.user);
   }
 
   // challenge 인증
@@ -58,7 +72,7 @@ export class ChallengesController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: '챌린지 인증',
-    type: ChallengeHistory,
+    type: DailyRecord,
   })
   @UseInterceptors(FileInterceptor('video', multerOptionsFactory('videos')))
   @ApiConsumes('multipart/form-data')

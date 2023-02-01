@@ -1,13 +1,5 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToOne,
-  ManyToMany,
-  JoinTable,
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { User } from 'src/users/users.entity';
 
 @Entity()
 export class Challenge {
@@ -41,25 +33,13 @@ export class Challenge {
     description: '챌린지 참여 일수',
   })
   @Column()
-  days: number;
+  totalDays: number;
 
+  // 챌린지 합격 기준 일수
   @ApiProperty({
-    example:
-      '0xb8542ced3b91535ec569a537a7eff91bec498f25bca349473b6e2856529787ba',
-    description: '챌린지 매니저 User ID',
+    example: 7,
+    description: '챌린지 합격 기준 일수',
   })
   @Column()
-  managerId: string;
-
-  // 챌린지 매니저 (한 명)
-  @ManyToOne(() => User)
-  manager: User;
-
-  // 챌린지 참여자 (여러 명)
-  @ManyToMany(() => User)
-  @JoinTable({
-    joinColumns: [{ name: 'challengeId' }],
-    inverseJoinColumns: [{ name: 'userId' }],
-  })
-  challengers: User[];
+  passDays: number;
 }

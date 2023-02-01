@@ -42,4 +42,16 @@ export class Challenge {
   })
   @Column()
   passDays: number;
+
+  // 챌린지 종류: ENUM (1: excercise, 2: development, 3: writing)
+  @ApiProperty({
+    example: 'development',
+    description: '챌린지 종류 excercise | development | writing',
+  })
+  @Column({
+    type: 'enum',
+    enum: ['excercise', 'development'],
+    default: 'excercise',
+  })
+  type: string;
 }

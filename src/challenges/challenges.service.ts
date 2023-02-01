@@ -56,4 +56,8 @@ export class ChallengesService {
     await this.challengeHistoriesRepository.save(challengeHistory);
     return challengeHistory;
   }
+
+  retrieveChallengeList() {
+    return this.challengesRepository.find();
+  }
 }

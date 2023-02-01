@@ -1,7 +1,6 @@
 import {
-  Body,
   Controller,
-  HttpCode,
+  Get,
   HttpStatus,
   Param,
   Post,
@@ -28,7 +27,13 @@ import { ChallengesService } from './challenges.service';
 export class ChallengesController {
   constructor(private readonly challengesService: ChallengesService) {}
 
-  // challeng 인증
+  // challege 리스트 가져오기
+  @Get()
+  retrieveChallengeList() {
+    return this.challengesService.retrieveChallengeList();
+  }
+
+  // challenge 인증
   @Post('/verify/:id')
   @ApiBearerAuth('access_token')
   @ApiBody({
@@ -45,7 +50,7 @@ export class ChallengesController {
   })
   @ApiResponse({
     status: HttpStatus.CREATED,
-    description: '비디오 업로드',
+    description: '챌린지 인증',
     type: ChallengeHistory,
   })
   @UseInterceptors(FileInterceptor('video', multerOptionsFactory('videos')))
@@ -57,9 +62,6 @@ export class ChallengesController {
     video: Express.Multer.File,
     @Request() req,
   ) {
-    console.log('verifyChallenge >>>>>>');
-    console.log('video >>>>>>', video);
-    console.log('id >>>>>>> ', id);
     return this.challengesService.verifyChallenge(req.user, id, video);
   }
 }

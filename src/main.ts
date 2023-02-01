@@ -29,6 +29,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
   setupSwagger(app);
   app.useGlobalFilters(new HttpExceptionFilter());
   await app.listen(8000);

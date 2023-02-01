@@ -59,15 +59,29 @@ export class ChallengesService {
       thumbnailKey,
       `lifemining/videos-convert/${basename}/Default/Thumbnails`,
     );
-    const challengeHistory = this.DailyRecordRepository.create({
+    const dailyRecord = this.DailyRecordRepository.create({
       challengerId: user.id,
       challengeId: id,
       s3Url: s3Url,
       streamingUrl: streamingUrl,
       thumbnailUrl: thumbnailUrl,
     });
-    await this.DailyRecordRepository.save(challengeHistory);
-    return challengeHistory;
+    await this.DailyRecordRepository.save(dailyRecord);
+    const totalRecord = await this.TotalRecordRepository.createQueryBuilder(
+      'totalRecord',
+    )
+      .leftJoinAndSelect('totalRecord.challenge', 'challenge')
+      .where({
+        challengerId: user.id,
+        challengeId: id,
+      })
+      .getOne();
+    totalRecord.totalDays += 1;
+    if (totalRecord.totalDays >= totalRecord.challenge.passDays) {
+      totalRecord.claimable = true;
+    }
+    await this.TotalRecordRepository.save(totalRecord);
+    return dailyRecord;
   }
 
   retrieveChallengeList() {

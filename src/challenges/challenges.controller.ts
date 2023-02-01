@@ -99,4 +99,20 @@ export class ChallengesController {
   ) {
     return this.challengesService.verifyChallenge(req.user, id, video);
   }
+
+  // challenge 클레임
+  @Post('/claim/:id')
+  @ApiBearerAuth('access_token')
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: '챌린지 클레임',
+    type: TotalRecord,
+  })
+  @UseGuards(LocalAuthGuard)
+  async claimChallenge(
+    @Param('id') id: number,
+    @Request() req,
+  ): Promise<TotalRecord> {
+    return this.challengesService.claimChallenge(id, req.user);
+  }
 }

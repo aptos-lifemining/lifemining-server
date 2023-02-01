@@ -71,4 +71,12 @@ export class TotalRecord {
   })
   @Column({ nullable: false, default: false })
   claimable: boolean;
+
+  // 클레임 완료 여부
+  @ApiProperty({
+    example: 'false',
+    description: '클레임 완료 여부',
+  })
+  @Column({ nullable: false, default: false })
+  claimed: boolean;
 }

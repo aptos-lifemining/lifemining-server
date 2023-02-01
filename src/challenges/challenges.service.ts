@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/users.entity';
@@ -94,5 +94,22 @@ export class ChallengesService {
       .leftJoinAndSelect('totalRecord.challenge', 'challenge')
       .where({ challengerId: user.id })
       .getMany();
+  }
+
+  async claimChallenge(id, user: User) {
+    const totalRecord = await this.TotalRecordRepository.findOne({
+      where: { challengerId: user.id, challengeId: id },
+    });
+    if (!totalRecord.claimable) {
+      throw new HttpException(
+        '클레임이 가능하지 않습니다.',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    // TODO : 클레임 동작
+    totalRecord.claimable = false;
+    totalRecord.claimed = true;
+    await this.TotalRecordRepository.save(totalRecord);
+    return totalRecord;
   }
 }

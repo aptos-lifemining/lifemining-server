@@ -41,6 +41,20 @@ export class ChallengesController {
     return this.challengesService.retrieveChallengeList();
   }
 
+  // 내가 참여중인 totalRecords 가져오기
+  @Get('/totalRecords')
+  @ApiBearerAuth('access_token')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: '내가 참여중인 챌린지들의 totalRecords 가져오기',
+    type: TotalRecord,
+    isArray: true,
+  })
+  @UseGuards(LocalAuthGuard)
+  retrieveMyTotalRecords(@Request() req) {
+    return this.challengesService.retrieveMyTotalRecords(req.user);
+  }
+
   // challenge 참여하기
   @Post('/join/:id')
   @ApiBearerAuth('access_token')

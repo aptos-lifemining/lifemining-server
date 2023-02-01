@@ -87,4 +87,11 @@ export class ChallengesService {
   retrieveChallengeList() {
     return this.challengesRepository.find();
   }
+
+  retrieveMyTotalRecords(user: User) {
+    return this.TotalRecordRepository.createQueryBuilder('totalRecord')
+      .leftJoinAndSelect('totalRecord.challenge', 'challenge')
+      .where({ challengerId: user.id })
+      .getMany();
+  }
 }

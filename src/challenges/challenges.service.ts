@@ -36,7 +36,7 @@ export class ChallengesService {
       challengerId: user.id,
       challengeId: id,
     });
-    await this.DailyRecordRepository.save(totalRecord);
+    await this.TotalRecordRepository.save(totalRecord);
     return totalRecord;
   }
 
@@ -76,8 +76,8 @@ export class ChallengesService {
         challengeId: id,
       })
       .getOne();
-    totalRecord.totalDays += 1;
-    if (totalRecord.totalDays >= totalRecord.challenge.passDays) {
+    totalRecord.participationDays += 1;
+    if (totalRecord.participationDays >= totalRecord.challenge.passDays) {
       totalRecord.claimable = true;
     }
     await this.TotalRecordRepository.save(totalRecord);
@@ -89,6 +89,7 @@ export class ChallengesService {
   }
 
   retrieveMyTotalRecords(user: User) {
+    console.log(user.id);
     return this.TotalRecordRepository.createQueryBuilder('totalRecord')
       .leftJoinAndSelect('totalRecord.challenge', 'challenge')
       .where({ challengerId: user.id })

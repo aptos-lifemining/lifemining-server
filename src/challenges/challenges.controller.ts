@@ -75,7 +75,7 @@ export class ChallengesController {
     schema: {
       type: 'object',
       properties: {
-        profileImage: {
+        video: {
           type: 'video',
           format: 'binary',
           description: '인증용 동영상 파일',

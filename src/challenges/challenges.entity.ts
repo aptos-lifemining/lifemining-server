@@ -54,4 +54,12 @@ export class Challenge {
     default: 'excercise',
   })
   type: string;
+
+  // 챌린지를 위해 스테이킹 해야 하는 앱토스
+  @ApiProperty({
+    example: 2.5,
+    description: '챌린지를 위해 스테이킹 해야 하는 앱토스',
+  })
+  @Column({ default: 2.5 })
+  stakingAPT: number;
 }

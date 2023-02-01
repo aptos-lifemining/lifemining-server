@@ -4,12 +4,14 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
+  Index,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from 'src/users/users.entity';
 import { Challenge } from './challenges.entity';
 
 @Entity()
+@Index(['challengerId', 'challengeId'], { unique: true })
 export class TotalRecord {
   // id
   @ApiProperty({
@@ -51,19 +53,20 @@ export class TotalRecord {
   // 챌린지
   @ManyToOne(() => Challenge)
   @JoinColumn({ name: 'challengeId' })
+  @ApiProperty({ type: () => Challenge, description: '챌린지' })
   challenge: Challenge;
 
   // 총 참여 일수
   @ApiProperty({
-    example: '1',
+    example: '0',
     description: '총 참여 일수',
   })
   @Column({ nullable: false, default: 0 })
-  totalDays: number;
+  participationDays: number;
 
   // 클레임 가능 여부
   @ApiProperty({
-    example: 'true',
+    example: 'false',
     description: '클레임 가능 여부',
   })
   @Column({ nullable: false, default: false })

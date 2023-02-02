@@ -97,15 +97,12 @@ export class Challenge {
   creatorId: string;
 
   // 크리에이터
-  @ManyToOne(() => User)
+  @ApiProperty({
+    type: () => User,
+    example: User,
+    description: '챌린지 크리에이터',
+  })
+  @ManyToOne(() => User, { eager: true })
   @JoinColumn({ name: 'creatorId' })
   creator: User;
-
-  // 챌린지 크리에이터 핸들
-  @ApiProperty({
-    example: 'june',
-    description: '챌린지 크리에이터 핸들',
-  })
-  @Column()
-  creatorHandle: string;
 }

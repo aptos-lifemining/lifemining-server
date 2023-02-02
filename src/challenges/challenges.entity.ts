@@ -35,12 +35,13 @@ export class Challenge {
   subTitle: string;
 
   // 챌린지 설명
+  // 최대 길이 없음
   @ApiProperty({
     example: '챌린지 설명',
     description:
       '빌더들을 위한 3일짜리 해커톤입니다. 참여하게 되면, 많은 혜택이 있습니다.',
   })
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'text' })
   description: string;
 
   // 챌린지 참여 기간 (일)

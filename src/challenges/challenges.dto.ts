@@ -11,11 +11,13 @@ export class VerifyChallengeDTO {
 
 export class CreateChallengeDTO extends PickType(Challenge, [
   'title',
+  'subTitle',
   'description',
   'totalDays',
   'passDays',
   'type',
   'stakingAPT',
+  'creatorHandle',
 ] as const) {
   // 챌린지 이미지
   @ApiProperty({

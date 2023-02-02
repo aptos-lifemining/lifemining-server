@@ -26,10 +26,19 @@ export class Challenge {
   @Column()
   title: string;
 
+  // 챌린지 제목
+  @ApiProperty({
+    example: '챌린지 부제목',
+    description: '앱토스 해커톤에서 3일 동안 프로덕트를 빌딩하세요.',
+  })
+  @Column()
+  subTitle: string;
+
   // 챌린지 설명
   @ApiProperty({
     example: '챌린지 설명',
-    description: '10일짜리 설명입니다.',
+    description:
+      '빌더들을 위한 3일짜리 해커톤입니다. 참여하게 되면, 많은 혜택이 있습니다.',
   })
   @Column({ nullable: true })
   description: string;
@@ -91,4 +100,12 @@ export class Challenge {
   @ManyToOne(() => User)
   @JoinColumn({ name: 'creatorId' })
   creator: User;
+
+  // 챌린지 크리에이터 핸들
+  @ApiProperty({
+    example: 'june',
+    description: '챌린지 크리에이터 핸들',
+  })
+  @Column()
+  creatorHandle: string;
 }

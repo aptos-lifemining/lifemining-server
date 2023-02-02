@@ -116,6 +116,7 @@ export class ChallengesService {
       ...body,
       creatorId: user.id,
       imageUrl: await this.getS3URL(image.key),
+      creatorHandle: user.handle,
     });
     await this.challengesRepository.save(challenge);
     return challenge;

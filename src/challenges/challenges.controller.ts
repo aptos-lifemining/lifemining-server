@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   HttpStatus,
@@ -23,6 +24,7 @@ import { DailyRecord } from './dailyRecords.entity';
 import { Challenge } from './challenges.entity';
 import { ChallengesService } from './challenges.service';
 import { TotalRecord } from './totalRecords.entity';
+import { CreateChallengeDTO } from './challenges.dto';
 
 @ApiTags('challenges')
 @Controller('challenges')
@@ -53,6 +55,26 @@ export class ChallengesController {
   @UseGuards(LocalAuthGuard)
   retrieveMyTotalRecords(@Request() req) {
     return this.challengesService.retrieveMyTotalRecords(req.user);
+  }
+
+  // challenge 열기
+  @Post()
+  @ApiBearerAuth('access_token')
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: '챌린지 생성',
+    type: Challenge,
+  })
+  @UseGuards(LocalAuthGuard)
+  @UseInterceptors(
+    FileInterceptor('image', multerOptionsFactory('challenge-images')),
+  )
+  createChallenge(
+    @Request() req,
+    @Body() body: CreateChallengeDTO,
+    @UploadedFile() image,
+  ) {
+    return this.challengesService.createChallenge(req.user, body, image);
   }
 
   // challenge 참여하기

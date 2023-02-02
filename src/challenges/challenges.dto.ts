@@ -1,4 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, PickType } from '@nestjs/swagger';
+import { Challenge } from './challenges.entity';
 
 export class VerifyChallengeDTO {
   @ApiProperty({
@@ -6,4 +7,20 @@ export class VerifyChallengeDTO {
     description: '챌린지 ID',
   })
   challengeId: number;
+}
+
+export class CreateChallengeDTO extends PickType(Challenge, [
+  'title',
+  'description',
+  'totalDays',
+  'passDays',
+  'type',
+  'stakingAPT',
+] as const) {
+  // 챌린지 이미지
+  @ApiProperty({
+    example: 'cover.png',
+    description: '챌린지 이미지 파일',
+  })
+  image: Express.Multer.File;
 }

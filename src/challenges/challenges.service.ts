@@ -42,11 +42,8 @@ export class ChallengesService {
 
   // challeng 인증
   async verifyChallenge(user: User, id, videoFile) {
-    console.log('verifyChallenge >>>>>>');
     const videoKey = videoFile.key;
-    console.log('videoKey >>>>>>', videoKey);
     const s3Url = await this.getS3URL(videoKey);
-    console.log(s3Url);
     const ext = path.extname(videoKey); // 파일의 확장자 추출
     const basename = path.basename(videoKey, ext); // 파일 이름
     const m3u8Key = basename + '.m3u8';
@@ -81,6 +78,7 @@ export class ChallengesService {
       totalRecord.claimable = true;
     }
     await this.TotalRecordRepository.save(totalRecord);
+    // TODO : 프로필 업그레이드 후 dynamic nft 에도 기록
     return dailyRecord;
   }
 
@@ -111,5 +109,15 @@ export class ChallengesService {
     totalRecord.claimed = true;
     await this.TotalRecordRepository.save(totalRecord);
     return totalRecord;
+  }
+
+  async createChallenge(user, body, image) {
+    const challenge = this.challengesRepository.create({
+      ...body,
+      creatorId: user.id,
+      imageUrl: await this.getS3URL(image.key),
+    });
+    await this.challengesRepository.save(challenge);
+    return challenge;
   }
 }

@@ -1,5 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
+import { User } from 'src/users/users.entity';
 
 @Entity()
 export class Challenge {
@@ -62,4 +69,26 @@ export class Challenge {
   })
   @Column({ default: 2.5 })
   stakingAPT: number;
+
+  // 챌린지 이미지 URL
+  @ApiProperty({
+    example:
+      'https://dev-static-files.uzumeta.com/lifemining/challenge-images/test.jpg',
+    description: '챌린지 이미지 URL',
+  })
+  @Column()
+  imageUrl: string;
+
+  // 챌린지 크리에이터 아이디
+  @ApiProperty({
+    example: 'bffacaa8-0b04-4449-aa39-f65e64f3aa9a',
+    description: '챌린지 매니저 아이디',
+  })
+  @Column()
+  creatorId: string;
+
+  // 크리에이터
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'creatorId' })
+  creator: User;
 }

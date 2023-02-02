@@ -84,4 +84,16 @@ export class UsersController {
   ): Promise<User> {
     return this.usersService.register(body, profileImage);
   }
+
+  // 유저들 가져오기
+  @Get()
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: '유저들 가져오기',
+    type: User,
+    isArray: true,
+  })
+  findAll(): Promise<User[]> {
+    return this.usersService.findAll();
+  }
 }

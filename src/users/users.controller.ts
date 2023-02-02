@@ -122,4 +122,26 @@ export class UsersController {
   downgrade(@Request() req): Promise<User> {
     return this.usersService.downgrade(req.user);
   }
+
+  // 모든 기록 리셋
+  @Post('/reset')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        handle: {
+          type: 'string',
+          example: 'jiwoo',
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: '모든 기록 리셋',
+    type: null,
+  })
+  reset(@Body() body) {
+    return this.usersService.reset(body.handle);
+  }
 }

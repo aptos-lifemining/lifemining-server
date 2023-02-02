@@ -4,12 +4,22 @@ import { Repository } from 'typeorm';
 import { CreateUserDTO } from './users.dto';
 import { User } from './users.entity';
 import { ConfigService } from '@nestjs/config';
+import { Challenge } from 'src/challenges/challenges.entity';
+import { DailyRecord } from 'src/challenges/dailyRecords.entity';
+import { TotalRecord } from 'src/challenges/totalRecords.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+
+    @InjectRepository(DailyRecord)
+    private dailyRecordRepository: Repository<DailyRecord>,
+
+    @InjectRepository(TotalRecord)
+    private totalRecordRepository: Repository<TotalRecord>,
+
     private configService: ConfigService,
   ) {}
 
@@ -53,5 +63,19 @@ export class UsersService {
     user.roomImageUrl =
       'https://dev-static-files.uzumeta.com/lifemining/room-images/room-empty.png';
     return this.usersRepository.save(user);
+  }
+
+  async reset(handle: string) {
+    const user = await this.usersRepository.findOneBy({ handle });
+    const totalRecords = await this.totalRecordRepository.find({
+      where: { challengerId: user.id },
+    });
+    // delete totalRecords
+    await this.totalRecordRepository.remove(totalRecords);
+    // delete dailyRecords
+    const dailyRecords = await this.dailyRecordRepository.find({
+      where: { challengerId: user.id },
+    });
+    await this.dailyRecordRepository.remove(dailyRecords);
   }
 }

@@ -88,11 +88,11 @@ export class Challenge {
   @Column({ default: 2.5, type: 'float' })
   stakingAPT: number;
 
-  // 챌린지 이미지 URL
+  // 챌린지 이미지 Url
   @ApiProperty({
     example:
       'https://dev-static-files.uzumeta.com/lifemining/challenge-images/test.jpg',
-    description: '챌린지 이미지 URL',
+    description: '챌린지 이미지 Url',
   })
   @Column()
   imageUrl: string;

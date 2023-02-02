@@ -13,7 +13,7 @@ export class UsersService {
     private configService: ConfigService,
   ) {}
 
-  getS3URL(profileImage) {
+  getS3Url(profileImage) {
     return (
       this.configService.get('AWS_S3_CLOUDFRONT_ENDPOINT') +
       '/' +
@@ -32,7 +32,7 @@ export class UsersService {
     console.log('>>>>>>> in signup() of UsersService <<<<<<<');
     const user = await this.usersRepository.create({
       ...createUserDTO,
-      profileImageUrl: this.getS3URL(profileImage),
+      profileImageUrl: this.getS3Url(profileImage),
     });
     await this.usersRepository.save(user);
     return user;

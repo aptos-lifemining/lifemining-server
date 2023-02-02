@@ -25,7 +25,7 @@ export class User {
   @ApiProperty({
     example:
       'https://dev-static-files.uzumeta.com/profile-images/MyProfileImage_1672273336644.png',
-    description: '프로필 이미지 URL',
+    description: '프로필 이미지 Url',
   })
   @Column()
   profileImageUrl: string;
@@ -33,12 +33,12 @@ export class User {
   // profile image s3 url
   @ApiProperty({
     example: 'https://dev-static-files.uzumeta.com/room-images/room.jpg',
-    description: '프로필 이미지 URL',
+    description: '프로필 이미지 Url',
   })
   @Column({
     default: 'https://dev-static-files.uzumeta.com/room-images/room.jpg',
   })
-  roomImageURL: string;
+  roomImageUrl: string;
 
   // aptos wallet address
   @ApiProperty({

@@ -20,7 +20,7 @@ export class ChallengesService {
     private readonly config: ConfigService,
   ) {}
 
-  async getS3URL(key: string, prefix = null) {
+  async getS3Url(key: string, prefix = null) {
     return prefix
       ? (await this.config.get('AWS_S3_CLOUDFRONT_ENDPOINT')) +
           '/' +
@@ -43,16 +43,16 @@ export class ChallengesService {
   // challeng 인증
   async verifyChallenge(user: User, id, videoFile) {
     const videoKey = videoFile.key;
-    const s3Url = await this.getS3URL(videoKey);
+    const s3Url = await this.getS3Url(videoKey);
     const ext = path.extname(videoKey); // 파일의 확장자 추출
     const basename = path.basename(videoKey, ext); // 파일 이름
     const m3u8Key = basename + '.m3u8';
-    const streamingUrl = await this.getS3URL(
+    const streamingUrl = await this.getS3Url(
       m3u8Key,
       `lifemining/videos-convert/${basename}/Default/assets/HLS`,
     );
     const thumbnailKey = basename + '.0000000.jpg';
-    const thumbnailUrl = await this.getS3URL(
+    const thumbnailUrl = await this.getS3Url(
       thumbnailKey,
       `lifemining/videos-convert/${basename}/Default/Thumbnails`,
     );
@@ -124,7 +124,7 @@ export class ChallengesService {
     const challenge = this.challengesRepository.create({
       ...body,
       creatorId: user.id,
-      imageUrl: await this.getS3URL(image.key),
+      imageUrl: await this.getS3Url(image.key),
       creatorHandle: user.handle,
     });
     await this.challengesRepository.save(challenge);

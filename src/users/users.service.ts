@@ -77,5 +77,29 @@ export class UsersService {
       where: { challengerId: user.id },
     });
     await this.dailyRecordRepository.remove(dailyRecords);
+    const totalRecordNew = {
+      challengerId: user.id,
+      challengeId: 1,
+      participationDays: 2,
+    };
+    const totalRecord = await this.totalRecordRepository.create(totalRecordNew);
+    await this.totalRecordRepository.save(totalRecord);
+
+    const dailyRecordNew = {
+      challengerId: user.id,
+      challengeId: 1,
+      thumbnailUrl:
+        'https://dev-static-files.uzumeta.com/lifemining/videos-convert/lifemining-test_1675371751106/Default/Thumbnails/lifemining-test_1675371751106.0000000.jpg',
+      s3Url:
+        'https://dev-static-files.uzumeta.com/lifemining/videos/lifemining-test_1675371751106.mp4',
+      streamingUrl:
+        'https://dev-static-files.uzumeta.com/lifemining/videos-convert/lifemining-test_1675371751106/Default/Manifest.mpd',
+    };
+    const dailyRecord = await this.dailyRecordRepository.create(dailyRecordNew);
+    await this.dailyRecordRepository.save(dailyRecord);
+    const dailyRecord2 = await this.dailyRecordRepository.create(
+      dailyRecordNew,
+    );
+    await this.dailyRecordRepository.save(dailyRecord2);
   }
 }

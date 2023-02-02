@@ -98,11 +98,11 @@ export class Challenge {
 
   // 챌린지 크리에이터 아이디
   @ApiProperty({
-    example: 'bffacaa8-0b04-4449-aa39-f65e64f3aa9a',
+    example: 1,
     description: '챌린지 매니저 아이디',
   })
   @Column()
-  creatorId: string;
+  creatorId: number;
 
   // 크리에이터
   @ApiProperty({

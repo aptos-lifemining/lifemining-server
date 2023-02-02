@@ -29,11 +29,11 @@ export class DailyRecord {
 
   // 챌린저 아이디
   @ApiProperty({
-    example: 'bffacaa8-0b04-4449-aa39-f65e64f3aa9a',
+    example: 1,
     description: '챌린저 아이디',
   })
   @Column({ nullable: false })
-  challengerId: string;
+  challengerId: number;
 
   // 챌린지 참여자
   @ManyToOne(() => User)

@@ -4,11 +4,11 @@ import { ApiProperty } from '@nestjs/swagger';
 @Entity()
 export class User {
   @ApiProperty({
-    example: 'bffacaa8-0b04-4449-aa39-f65e64f3aa9a',
+    example: 1,
     description: 'DB ID',
   })
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   // user handle
   @ApiProperty({
@@ -46,7 +46,7 @@ export class User {
       '0xb8542ced3b91535ec569a537a7eff91bec498f25bca349473b6e2856529787ba',
     description: 'Aptos wallet address',
   })
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   address: string;
 
   @ApiProperty({

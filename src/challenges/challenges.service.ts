@@ -94,6 +94,15 @@ export class ChallengesService {
       .getMany();
   }
 
+  retrieveTotalRecord(user: User, id) {
+    console.log('retrieveTotalRecord');
+    console.log(user.id, id);
+    return this.TotalRecordRepository.findOneBy({
+      challengerId: user.id,
+      challengeId: id,
+    });
+  }
+
   async claimChallenge(id, user: User) {
     const totalRecord = await this.TotalRecordRepository.findOne({
       where: { challengerId: user.id, challengeId: id },

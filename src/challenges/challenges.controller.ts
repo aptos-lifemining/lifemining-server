@@ -43,17 +43,6 @@ export class ChallengesController {
     return this.challengesService.retrieveChallengeList();
   }
 
-  // 특정 challenge id로 가져오기
-  @Get(':id')
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: '특정 챌린지 가져오기',
-    type: Challenge,
-  })
-  retrieveChallenge(@Param('id') id: number) {
-    return this.challengesService.retrieveChallenge(id);
-  }
-
   // 내가 참여중인 totalRecords 가져오기
   @Get('/totalRecords')
   @ApiBearerAuth('access_token')
@@ -66,6 +55,30 @@ export class ChallengesController {
   @UseGuards(LocalAuthGuard)
   retrieveMyTotalRecords(@Request() req) {
     return this.challengesService.retrieveMyTotalRecords(req.user);
+  }
+
+  // 특정 챌린지의 내가 참여중인 totalRecord 가져오기
+  @Get(':id/totalRecord')
+  @ApiBearerAuth('access_token')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: '특정 챌린지의 내가 참여중인 totalRecord 가져오기',
+    type: TotalRecord,
+  })
+  @UseGuards(LocalAuthGuard)
+  retrieveTotalRecord(@Request() req, @Param('id') id: number) {
+    return this.challengesService.retrieveTotalRecord(req.user, id);
+  }
+
+  // 특정 challenge id로 가져오기
+  @Get(':id')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: '특정 챌린지 가져오기',
+    type: Challenge,
+  })
+  retrieveChallenge(@Param('id') id: number) {
+    return this.challengesService.retrieveChallenge(id);
   }
 
   // challenge 열기

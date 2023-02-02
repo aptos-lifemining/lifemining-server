@@ -28,7 +28,7 @@ export class User {
     description: '프로필 이미지 URL',
   })
   @Column()
-  profileImageURL: string;
+  profileImageUrl: string;
 
   // profile image s3 url
   @ApiProperty({

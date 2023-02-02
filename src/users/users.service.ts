@@ -32,7 +32,7 @@ export class UsersService {
     console.log('>>>>>>> in signup() of UsersService <<<<<<<');
     const user = await this.usersRepository.create({
       ...createUserDTO,
-      profileImageURL: this.getS3URL(profileImage),
+      profileImageUrl: this.getS3URL(profileImage),
     });
     await this.usersRepository.save(user);
     return user;

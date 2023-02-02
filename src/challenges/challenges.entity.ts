@@ -51,6 +51,14 @@ export class Challenge {
   @Column()
   totalDays: number;
 
+  // 챌린지 시작 기준일
+  @ApiProperty({
+    example: '2021-08-01',
+    description: '챌린지 시작 기준일',
+  })
+  @Column()
+  startDate: string;
+
   // 챌린지 합격 기준 일수
   @ApiProperty({
     example: 7,
@@ -59,14 +67,14 @@ export class Challenge {
   @Column()
   passDays: number;
 
-  // 챌린지 종류: ENUM (1: excercise, 2: development, 3: writing)
+  // 챌린지 종류: ENUM
   @ApiProperty({
-    example: 'development',
-    description: '챌린지 종류 excercise | development | writing',
+    example: 'excercise',
+    description: '챌린지 종류 excercise | develop | art',
   })
   @Column({
     type: 'enum',
-    enum: ['excercise', 'development'],
+    enum: ['excercise', 'develop', 'art'],
     default: 'excercise',
   })
   type: string;

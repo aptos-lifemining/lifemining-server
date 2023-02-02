@@ -121,4 +121,8 @@ export class ChallengesService {
     await this.challengesRepository.save(challenge);
     return challenge;
   }
+
+  async retrieveChallenge(id) {
+    return await this.challengesRepository.findOneBy({ id });
+  }
 }

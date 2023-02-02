@@ -43,6 +43,17 @@ export class ChallengesController {
     return this.challengesService.retrieveChallengeList();
   }
 
+  // 특정 challenge id로 가져오기
+  @Get(':id')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: '특정 챌린지 가져오기',
+    type: Challenge,
+  })
+  retrieveChallenge(@Param('id') id: number) {
+    return this.challengesService.retrieveChallenge(id);
+  }
+
   // 내가 참여중인 totalRecords 가져오기
   @Get('/totalRecords')
   @ApiBearerAuth('access_token')

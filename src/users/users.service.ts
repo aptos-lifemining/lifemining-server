@@ -42,4 +42,16 @@ export class UsersService {
     const users = await this.usersRepository.find();
     return users;
   }
+
+  upgrade(user: User) {
+    user.roomImageUrl =
+      'https://dev-static-files.uzumeta.com/lifemining/room-images/room-updated.png';
+    return this.usersRepository.save(user);
+  }
+
+  downgrade(user: User) {
+    user.roomImageUrl =
+      'https://dev-static-files.uzumeta.com/lifemining/room-images/room-empty.png';
+    return this.usersRepository.save(user);
+  }
 }

@@ -96,4 +96,30 @@ export class UsersController {
   findAll(): Promise<User[]> {
     return this.usersService.findAll();
   }
+
+  // 내 프로필 업그레이드
+  @Post('/upgrade')
+  @ApiBearerAuth('access_token')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: '내 프로필 업그레이드',
+    type: User,
+  })
+  @UseGuards(LocalAuthGuard)
+  upgrade(@Request() req): Promise<User> {
+    return this.usersService.upgrade(req.user);
+  }
+
+  // 내 프로필 다운그레이드
+  @Post('/downgrade')
+  @ApiBearerAuth('access_token')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: '내 프로필 다운그레이드',
+    type: User,
+  })
+  @UseGuards(LocalAuthGuard)
+  downgrade(@Request() req): Promise<User> {
+    return this.usersService.downgrade(req.user);
+  }
 }

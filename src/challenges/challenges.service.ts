@@ -73,11 +73,19 @@ export class ChallengesService {
         challengeId: id,
       })
       .getOne();
+    if (totalRecord.participationDays > totalRecord.challenge.totalDays) {
+      throw new HttpException(
+        '챌린지 기간이 종료되었습니다.',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
     totalRecord.participationDays += 1;
     if (totalRecord.participationDays >= totalRecord.challenge.passDays) {
       totalRecord.claimable = true;
     }
-    await this.TotalRecordRepository.save(totalRecord);
+    // update TotalRecord
+
+    await this.TotalRecordRepository.update(totalRecord.id, totalRecord);
     // TODO : 프로필 업그레이드 후 dynamic nft 에도 기록
     return dailyRecord;
   }
